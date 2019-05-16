@@ -22,7 +22,7 @@ class Home extends React.Component {
     }
   
     componentDidMount(){
-      fetch('http://localhost/dragons')
+      fetch('http://34.74.39.7/dragons')
         .then( res => res.json() )
         .then( dragons => {
           console.log(dragons)
@@ -33,7 +33,7 @@ class Home extends React.Component {
     }
 
     saveDragon(dragon){
-      fetch(`http://localhost/dragons/${dragon.id}`, {
+      fetch(`http://34.74.39.7/dragons/${dragon.id}`, {
         method: 'PATCH',
         headers:{
           'Content-Type':'application/json'

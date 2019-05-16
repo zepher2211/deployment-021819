@@ -1,7 +1,13 @@
 const pry = require('pryjs')
 const Dragon = require('./models/Dragon')
-const io = require('socket.io')()
+const express=  require('express')
+const app = require('express')();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const cors = require('cors')
+const bodyParser = require('body-parser')
 
+server.listen(80);
 
 io.on('connection', socket => {
     // console.log(socket)
@@ -18,25 +24,7 @@ io.on('connection', socket => {
         let dragons = await Dragon.findAll()
         io.emit('dragons.update', dragons)
     })
-
-
-   
 })
-
-
-
-io.listen(8080)
-
-
-
-
-
-
-const express = require('express')
-const cors = require('cors')
-const bodyParser = require('body-parser')
-
-const app = express()
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -57,11 +45,8 @@ app.get('/dragons/:id', (req, res) => {
 
 app.patch('/dragons/:id', async (req, res) => {
     let dragon = await Dragon.findByPk(req.params.id)
-    console.log(req.body)
     dragon.update(req.body)
 })
 
 
-app.listen(3001)
-
-// eval(pry.it)
+app.use('/', express.static('public'))

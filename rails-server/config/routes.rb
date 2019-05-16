@@ -5,5 +5,8 @@ Rails.application.routes.draw do
 
   post '/login', to: 'users#authenticate'
 
+  get '*path', to: "application#react_app", constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 
 end
